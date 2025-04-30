@@ -1,0 +1,30 @@
+### POST サインイン
+POST http://localhost:8080/api/users/signup
+content-type: application/json
+
+{
+    "email": "kimura.tohji@example.com",
+    "password": "123456789abc"
+}
+
+### POST サインイン(invalid email)
+POST http://localhost:8080/api/users/signup
+content-type: application/json
+
+{
+    "email": "kimura.tohjiexample.com",
+    "password": "123456789abc"
+}
+
+### POST ログイン
+POST http://localhost:8080/api/users/login
+content-type: application/json
+
+{
+    "email": "kimura.tohji@example.com",
+    "password": "123456789abc"
+}
+
+###
+kimura.tohji@example.com
+123456789abc

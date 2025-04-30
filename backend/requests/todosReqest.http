@@ -1,0 +1,46 @@
+### GET todoの一覧
+GET http://localhost:8080/api/todos/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
+### GET todoの検索
+GET http://localhost:8080/api/todos/?title=英
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
+### GET todoのID検索
+GET http://localhost:8080/api/todos/cm9z7vnka0000h8sifepi8wzh
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
+### POST todoの作成
+POST http://localhost:8080/api/todos/
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
+{
+    "title": "スペイン語教室",
+    "due_date": "2025-04-27T19:00:00+09:00"
+}
+
+### PATCH todoの更新
+PATCH http://localhost:8080/api/todos/cm9z7vnka0000h8sifepi8wzh
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
+{
+    "title": "韓国語",
+    "due_date": "2025-04-30T19:00:00+09:00",
+    "completed_at": "2025-04-28T19:00:00+09:00"
+}
+
+### PATCH todoの更新
+PATCH http://localhost:8080/api/todos/cm9z7vnka0000h8sifepi8wzh
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
+{
+    "due_date": null
+}
+
+### DELETE todoの削除
+DELETE http://localhost:8080/api/todos/cm9z7zvx60001h8sijwmhmbtv
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+
