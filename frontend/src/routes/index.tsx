@@ -1,7 +1,7 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Sinup";
-import Home from "@/pages/Home";
+import TodoList from "@/pages/TodoList";
 import { PrivateRoute } from "./PrivateRoute";
 
 export const AppRoutes = () => {
@@ -14,7 +14,7 @@ export const AppRoutes = () => {
                     path="/"
                     element={
                         <PrivateRoute>
-                            <Home />
+                            <TodoList />
                         </PrivateRoute>
                     }
                 />
