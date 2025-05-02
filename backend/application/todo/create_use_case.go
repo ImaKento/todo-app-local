@@ -16,6 +16,7 @@ type CreateTodoParams struct {
 	UserId      value_object.UserId
 	Title       value_object.Title
 	Body        *value_object.Body
+	Status      value_object.Status
 	DueDate     *value_object.DueDate
 	CompletedAt *value_object.CompletedAt
 }
@@ -31,6 +32,7 @@ func (usecase *CreateTodoUseCase) Execute(input CreateTodoParams) (*entity.Todo,
 		input.UserId,
 		input.Title,
 		input.Body,
+		input.Status,
 		input.DueDate,
 		input.CompletedAt,
 		time.Now(),

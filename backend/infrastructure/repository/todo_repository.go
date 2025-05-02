@@ -58,6 +58,9 @@ func (repo *TodoRepository) Search(params value_object.SearchTodoParams) ([]enti
 	if params.Body != nil {
 		query = query.Like("body", "%"+params.Body.Value()+"%")
 	}
+	if params.Status != nil {
+		query = query.Eq("status", params.Status.Value())
+	}
 	if params.DueFrom != nil {
 		query = query.Gte("due_date", params.DueFrom.Value().Format("2006-01-02"))
 	}
@@ -166,6 +169,7 @@ func todoEntityToModel(todo entity.Todo) *model.Todo {
 		b := todo.Body().Value()
 		body = &b
 	}
+	status := todo.Status().Value()
 	var dueDate *time.Time
 	if todo.DueDate() != nil {
 		d := todo.DueDate().Value()
@@ -182,6 +186,7 @@ func todoEntityToModel(todo entity.Todo) *model.Todo {
 		UserId:      userId,
 		Title:       title,
 		Body:        body,
+		Status:      status,
 		DueDate:     dueDate,
 		CompletedAt: completedAt,
 		CreatedAt:   todo.CreatedAt(),
@@ -198,6 +203,7 @@ func todoModelToEntity(todo model.Todo) entity.Todo {
 	if todo.Body != nil {
 		body, _ = value_object.NewBody(*todo.Body)
 	}
+	status, _ := value_object.NewStatus(todo.Status)
 	var dueDate *value_object.DueDate
 	if todo.DueDate != nil {
 		dueDate, _ = value_object.NewDueDate(*todo.DueDate)
@@ -212,6 +218,7 @@ func todoModelToEntity(todo model.Todo) entity.Todo {
 		userId,
 		title,
 		body,
+		status,
 		dueDate,
 		completedAt,
 		todo.CreatedAt,

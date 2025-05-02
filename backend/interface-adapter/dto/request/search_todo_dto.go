@@ -10,6 +10,7 @@ import (
 type SearchTodoDTO struct {
 	Title     *string
 	Body      *string
+	Status    *string
 	DueFrom   *string
 	DueTo     *string
 	Completed *string
@@ -34,6 +35,14 @@ func (dto *SearchTodoDTO) ToInput(userId string) (*value_object.SearchTodoParams
 		if err != nil {
 			return nil, err
 		}
+	}
+	var statusVo *value_object.Status
+	if dto.Status != nil && *dto.Status != "" {
+		s, err := value_object.NewStatus(*dto.Status)
+		if err != nil {
+			return nil, err
+		}
+		statusVo = &s
 	}
 	var dueFromVo *value_object.DueDate
 	if dto.DueFrom != nil && *dto.DueFrom != "" {
@@ -72,6 +81,7 @@ func (dto *SearchTodoDTO) ToInput(userId string) (*value_object.SearchTodoParams
 		UserId:    userIdVo,
 		Title:     titleVo,
 		Body:      bodyVo,
+		Status:    statusVo,
 		DueFrom:   dueFromVo,
 		DueTo:     dueToVo,
 		Completed: completedVo,

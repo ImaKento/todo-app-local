@@ -10,6 +10,7 @@ import (
 type UpdateTodoDTO struct {
 	Title       *string    `json:"title"`
 	Body        *string    `json:"body"`
+	Status      *string    `json:"status"`
 	DueDate     *time.Time `json:"due_date"`
 	CompletedAt *time.Time `json:"completed_at"`
 }
@@ -19,11 +20,11 @@ func (dto *UpdateTodoDTO) ToInput() (*todo.UpdateTodoParams, error) {
 
 	var titleVo *value_object.Title
 	if dto.Title != nil {
-		tmp, err := value_object.NewTitle(*dto.Title)
+		t, err := value_object.NewTitle(*dto.Title)
 		if err != nil {
 			return nil, err
 		}
-		titleVo = &tmp
+		titleVo = &t
 	}
 	var bodyVo *value_object.Body
 	if dto.Body != nil {
@@ -31,6 +32,14 @@ func (dto *UpdateTodoDTO) ToInput() (*todo.UpdateTodoParams, error) {
 		if err != nil {
 			return nil, err
 		}
+	}
+	var statusVo *value_object.Status
+	if dto.Status != nil {
+		s, err := value_object.NewStatus(*dto.Status)
+		if err != nil {
+			return nil, err
+		}
+		statusVo = &s
 	}
 	var dueDateVo *value_object.DueDate
 	if dto.DueDate != nil {
@@ -50,6 +59,7 @@ func (dto *UpdateTodoDTO) ToInput() (*todo.UpdateTodoParams, error) {
 	return &todo.UpdateTodoParams{
 		Title:       titleVo,
 		Body:        bodyVo,
+		Status:      statusVo,
 		DueDate:     dueDateVo,
 		CompletedAt: completedAtVo,
 	}, nil

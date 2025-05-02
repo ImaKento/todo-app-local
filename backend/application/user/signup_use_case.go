@@ -14,6 +14,7 @@ type SignUpUseCase struct {
 }
 
 type SignUpParams struct {
+	Name           value_object.Name
 	Email          value_object.Email
 	HashedPassword value_object.HashedPassword
 }
@@ -36,6 +37,7 @@ func (usecase *SignUpUseCase) Execute(input SignUpParams) (string, error) {
 	// Userエンティティを作成
 	userEntity := entity.NewUser(
 		value_object.NewUserId(),
+		input.Name,
 		input.Email,
 		input.HashedPassword,
 		time.Now(),

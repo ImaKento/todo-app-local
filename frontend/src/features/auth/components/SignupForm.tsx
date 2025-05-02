@@ -21,7 +21,7 @@ export const SignupForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-    const { loginUser } = useAuth();
+    const { signupUser } = useAuth();
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ export const SignupForm = ({
     const onSubmit = async (data: SignupInput) => {
         setError("");
         try {
-            await loginUser(data.email, data.password);
+            await signupUser(data.name, data.email, data.password);
             navigate("/");
         } catch (err: any) {
             setError(err.message || "Login failed. Please check your email and password.");
@@ -92,13 +92,13 @@ export const SignupForm = ({
                             </div>
                             {error && <p className="text-red-600 text-sm">{error}</p>}
                             <Button type="submit" disabled={isSubmitting} className="w-full">
-                                {isSubmitting ? "Logging in..." : "Login"}
+                                {isSubmitting ? "Signing up..." : "Sign up"}
                             </Button>
                         </div>
                         <div className="text-center text-sm">
                             Do you already have an account?{" "}
                             <Link to="/login" className="underline underline-offset-4">
-                            Login
+                                Login
                             </Link>
                         </div>
                     </div>

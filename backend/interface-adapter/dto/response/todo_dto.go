@@ -10,6 +10,7 @@ type TodoDTO struct {
 	UserId      string     `json:"user_id"`
 	Title       string     `json:"title"`
 	Body        *string    `json:"body"`
+	Status      string     `json:"status"`
 	DueDate     *time.Time `json:"due_date"`
 	CompletedAt *time.Time `json:"completed_at"`
 	CreatedAt   time.Time  `json:"created_at"`
@@ -38,6 +39,7 @@ func ToResponseTodoDTO(todo *entity.Todo) *TodoDTO {
 		UserId:      todo.UserId().Value(),
 		Title:       todo.Title().Value(),
 		Body:        body,
+		Status:      todo.Status().Value(),
 		DueDate:     dueDate,
 		CompletedAt: completedAt,
 		CreatedAt:   todo.CreatedAt(),

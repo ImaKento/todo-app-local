@@ -62,6 +62,7 @@ func (tc *TodoController) Search(ctx echo.Context) error {
 	// クエリパラメータを取得
 	title := ctx.QueryParam("title")
 	body := ctx.QueryParam("body")
+	status := ctx.QueryParam("status")
 	dueFrom := ctx.QueryParam("due_from")
 	dueTo := ctx.QueryParam("due_to")
 	completed := ctx.QueryParam("completed")
@@ -70,6 +71,7 @@ func (tc *TodoController) Search(ctx echo.Context) error {
 	searchDTO := request.SearchTodoDTO{
 		Title:     &title,
 		Body:      &body,
+		Status:    &status,
 		DueFrom:   &dueFrom,
 		DueTo:     &dueTo,
 		Completed: &completed,

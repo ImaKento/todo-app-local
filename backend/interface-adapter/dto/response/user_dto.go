@@ -7,6 +7,7 @@ import (
 
 type UserDTO struct {
 	ID             string    `json:"id"`
+	Name           string    `json:"name"`
 	Email          string    `json:"email"`
 	HashedPassword string    `json:"hashed_password"`
 	CreatedAt      time.Time `json:"created_at"`
@@ -16,6 +17,7 @@ type UserDTO struct {
 func ToResponseUserDTO(user *entity.User) *UserDTO {
 	return &UserDTO{
 		ID:             user.Id().Value(),
+		Name:           user.Name().Value(),
 		Email:          user.Email().Value(),
 		HashedPassword: user.HashedPassword().Value(),
 		CreatedAt:      user.CreatedAt(),

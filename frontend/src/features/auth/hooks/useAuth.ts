@@ -4,8 +4,8 @@ import { login, signup } from "../api/authService";
 export const useAuth = () => {
     const [user, setUser] = useState<{ email: string } | null>();
 
-    const signupUser = async (email: string, password: string) => {
-        const res = await signup({ email, password });
+    const signupUser = async (name: string,email: string, password: string) => {
+        const res = await signup({ name, email, password });
 
         localStorage.setItem("token", res.token);
         setUser({ email });

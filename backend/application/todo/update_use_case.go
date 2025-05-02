@@ -15,6 +15,7 @@ type UpdateTodoUseCase struct {
 type UpdateTodoParams struct {
 	Title       *value_object.Title
 	Body        *value_object.Body
+	Status      *value_object.Status
 	DueDate     *value_object.DueDate
 	CompletedAt *value_object.CompletedAt
 }
@@ -44,6 +45,9 @@ func (usecase *UpdateTodoUseCase) Execute(todoId value_object.TodoId, userId val
 	}
 	if input.Body != nil {
 		todo.SetBody(input.Body)
+	}
+	if input.Status != nil {
+		todo.SetStatus(*input.Status)
 	}
 	if input.DueDate != nil {
 		todo.SetDueDate(input.DueDate)

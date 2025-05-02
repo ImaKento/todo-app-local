@@ -10,6 +10,7 @@ import (
 type CreateTodoDTO struct {
 	Title       string     `json:"title" validate:"required"`
 	Body        *string    `json:"body"`
+	Status      string     `json:"status"`
 	DueDate     *time.Time `json:"due_date"`
 	CompletedAt *time.Time `json:"completed_at"`
 }
@@ -30,6 +31,10 @@ func (dto *CreateTodoDTO) ToInput(userId string) (*todo.CreateTodoParams, error)
 			return nil, err
 		}
 	}
+	statusVo, err := value_object.NewStatus(dto.Status)
+	if err != nil {
+		return nil, err
+	}
 	var dueDateVo *value_object.DueDate
 	if dto.DueDate != nil {
 		dueDateVo, err = value_object.NewDueDate(*dto.DueDate)
@@ -49,6 +54,7 @@ func (dto *CreateTodoDTO) ToInput(userId string) (*todo.CreateTodoParams, error)
 		UserId:      userIdVo,
 		Title:       titleVo,
 		Body:        bodyVo,
+		Status:      statusVo,
 		DueDate:     dueDateVo,
 		CompletedAt: completedAtVo,
 	}, nil

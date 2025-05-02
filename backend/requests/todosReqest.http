@@ -1,46 +1,45 @@
 ### GET todoの一覧
 GET http://localhost:8080/api/todos/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 
 ### GET todoの検索
-GET http://localhost:8080/api/todos/?title=英
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+GET http://localhost:8080/api/todos/?status=not_started
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 
 ### GET todoのID検索
-GET http://localhost:8080/api/todos/cm9z7vnka0000h8sifepi8wzh
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+GET http://localhost:8080/api/todos/cma68ujak00014usiuxy65ltm
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 
 ### POST todoの作成
 POST http://localhost:8080/api/todos/
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 
 {
     "title": "スペイン語教室",
-    "due_date": "2025-04-27T19:00:00+09:00"
+    "status": "not_started",
+    "due_date": "2025-05-30T19:00:00+09:00"
 }
 
 ### PATCH todoの更新
-PATCH http://localhost:8080/api/todos/cm9z7vnka0000h8sifepi8wzh
+PATCH http://localhost:8080/api/todos/cma68ujak00014usiuxy65ltm
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 
 {
-    "title": "韓国語",
-    "due_date": "2025-04-30T19:00:00+09:00",
-    "completed_at": "2025-04-28T19:00:00+09:00"
+    "status": "in_progress"
 }
 
 ### PATCH todoの更新
 PATCH http://localhost:8080/api/todos/cm9z7vnka0000h8sifepi8wzh
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 
 {
     "due_date": null
 }
 
 ### DELETE todoの削除
-DELETE http://localhost:8080/api/todos/cm9z7zvx60001h8sijwmhmbtv
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDYyNDgwODQsInVzZXJfaWQiOiJjbTl4c2t5MHIwMDAwdHRzaWJidjhrMHdxIn0.svub_gHShc3ySQgiaQuF7LVNDrRMK4bAxHG5PBdR8oM
+DELETE http://localhost:8080/api/todos/cma68ujak00014usiuxy65ltm
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDY0MTYxOTAsInVzZXJfaWQiOiJjbWE2N3A0bGIwMDAwdmtzaXo3aTU1NGMyIn0.agjKeKYTuPJVdyCRTSsgztXUSN-YvN9WQXSF0Ng4O_M
 

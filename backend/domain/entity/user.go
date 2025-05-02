@@ -7,6 +7,7 @@ import (
 
 type User struct {
 	id             value_object.UserId
+	name           value_object.Name
 	email          value_object.Email
 	hashedPassword value_object.HashedPassword
 	createdAt      time.Time
@@ -16,6 +17,7 @@ type User struct {
 // NewUserは新しいUserを作成する
 func NewUser(
 	id value_object.UserId,
+	name value_object.Name,
 	email value_object.Email,
 	hashedPassword value_object.HashedPassword,
 	createdAt time.Time,
@@ -23,6 +25,7 @@ func NewUser(
 ) User {
 	return User{
 		id:             id,
+		name:           name,
 		email:          email,
 		hashedPassword: hashedPassword,
 		createdAt:      createdAt,
@@ -32,6 +35,7 @@ func NewUser(
 
 // ゲッター関数
 func (u *User) Id() value_object.UserId                     { return u.id }
+func (u *User) Name() value_object.Name                     { return u.name }
 func (u *User) Email() value_object.Email                   { return u.email }
 func (u *User) HashedPassword() value_object.HashedPassword { return u.hashedPassword }
 func (u *User) CreatedAt() time.Time                        { return u.createdAt }

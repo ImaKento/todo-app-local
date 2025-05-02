@@ -70,6 +70,7 @@ func (repo *UserRepository) Save(user *entity.User) (*entity.User, error) {
 func userEntityToModel(user entity.User) *model.User {
 	return &model.User{
 		ID:             user.Id().Value(),
+		Name:           user.Name().Value(),
 		Email:          user.Email().Value(),
 		HashedPassword: user.HashedPassword().Value(),
 		CreatedAt:      user.CreatedAt(),
@@ -80,11 +81,13 @@ func userEntityToModel(user entity.User) *model.User {
 // model.User型をentity.User型に変換
 func userModelToEntity(user model.User) entity.User {
 	id, _ := value_object.FromStringUserId(user.ID)
+	name, _ := value_object.NewName(user.Name)
 	email, _ := value_object.NewEmail(user.Email)
 	hashedPassword := value_object.HashedPasswordFromString(user.HashedPassword)
 
 	return entity.NewUser(
 		id,
+		name,
 		email,
 		hashedPassword,
 		user.CreatedAt,
