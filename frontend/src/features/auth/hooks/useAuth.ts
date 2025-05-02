@@ -11,7 +11,7 @@ export const useAuth = () => {
         setUser({ email });
     }
 
-    const loginUser = async (email: string ,password: string) => {
+    const loginUser = async (email: string, password: string) => {
         const res = await login({ email, password });
 
         localStorage.setItem("token", res.token);

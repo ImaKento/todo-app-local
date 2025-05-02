@@ -1,9 +1,11 @@
+import { useState, useEffect } from "react";
 import { Calendar, Plus, RefreshCw, Search, Settings, SortDesc } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { TaskColumn } from "./TaskColumn"
 import { useTasks } from "../hooks/useTasks"
+import { Task } from "@/features/todos/type"
 
 export default function Todos() {
     const {
@@ -11,51 +13,46 @@ export default function Todos() {
         moveTask,
         addNewTask,
         getTasksByStatus,
-        getTaskCountByStatus,
-    } = useTasks([
-        {
-            id: "1",
-            title: "新しいヘッドホンを注文",
-            date: "2024/02/09",
-            status: "未着手",
-            icon: "🎧",
-        },
-        {
-            id: "2",
-            title: "歯医者の予約",
-            date: "2024/01/29",
-            status: "未着手",
-            icon: "🖋️",
-        },
-        {
-            id: "3",
-            title: "「ジェームズ・クリアー式 複利で伸びる1つの習慣」を読む",
-            date: "2024/03/31",
-            status: "進行中",
-            icon: "📕",
-        },
-        {
-            id: "4",
-            title: "お母さんに電話",
-            date: "2024/01/31",
-            status: "進行中",
-            icon: "👋",
-        },
-        {
-            id: "5",
-            title: "休暇中の予定を決める",
-            date: "2024/02/23",
-            status: "進行中",
-            icon: "🌴",
-        },
-        {
-            id: "6",
-            title: "配車サービスを予約",
-            date: "2024/01/01",
-            status: "完了",
-            icon: "🚗",
-        },
-    ])
+    } = useTasks([])
+
+    const [tasksByStatus, setTasksByStatus] = useState<{
+        not_started: Task[];
+        in_progress: Task[];
+        completed: Task[];
+    }>({
+        not_started: [],
+        in_progress: [],
+        completed: [],
+    });
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAllTasks = async () => {
+            setLoading(true);
+            const [notStarted, inProgress, completed] = await Promise.all([
+                getTasksByStatus("not_started"),
+                getTasksByStatus("in_progress"),
+                getTasksByStatus("completed"),
+            ]);
+            setTasksByStatus({
+                not_started: notStarted,
+                in_progress: inProgress,
+                completed: completed,
+            });
+            setLoading(false);
+        };
+        fetchAllTasks();
+    }, []);
+
+    if (loading) {
+        return (
+          <div className="flex items-center justify-center h-screen">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <span className="ml-4 text-gray-700">タスクを読み込んでいます...</span>
+          </div>
+        );
+    }
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -100,12 +97,12 @@ export default function Todos() {
                     {/* 未着手列 */}
                     <TaskColumn
                         title="未着手"
-                        status="未着手"
+                        status="not_started"
                         color="bg-red-500"
                         bgColor="bg-red-50"
                         hoverColor="hover:bg-red-100"
-                        tasks={getTasksByStatus("未着手")}
-                        count={getTaskCountByStatus("未着手")}
+                        tasks={tasksByStatus.not_started}
+                        count={tasksByStatus.not_started.length}
                         onComplete={completeTask}
                         onMoveTask={moveTask}
                         onAddNewTask={addNewTask}
@@ -114,12 +111,12 @@ export default function Todos() {
                     {/* 進行中列 */}
                     <TaskColumn
                         title="進行中"
-                        status="進行中"
+                        status="in_progress"
                         color="bg-blue-500"
                         bgColor="bg-blue-50"
                         hoverColor="hover:bg-blue-100"
-                        tasks={getTasksByStatus("進行中")}
-                        count={getTaskCountByStatus("進行中")}
+                        tasks={tasksByStatus.in_progress}
+                        count={tasksByStatus.in_progress.length}
                         onComplete={completeTask}
                         onMoveTask={moveTask}
                         onAddNewTask={addNewTask}
@@ -128,12 +125,12 @@ export default function Todos() {
                     {/* 完了列 */}
                     <TaskColumn
                         title="完了"
-                        status="完了"
+                        status="completed"
                         color="bg-green-500"
                         bgColor="bg-green-50"
                         hoverColor="hover:bg-green-100"
-                        tasks={getTasksByStatus("完了")}
-                        count={getTaskCountByStatus("完了")}
+                        tasks={tasksByStatus.completed}
+                        count={tasksByStatus.completed.length}
                         onComplete={completeTask}
                         onMoveTask={moveTask}
                         onAddNewTask={addNewTask}

@@ -19,15 +19,15 @@ export function TaskColumn({
     emoji = "",
 }: {
     title: string
-    status: "未着手" | "進行中" | "完了"
+    status: "not_started" | "in_progress" | "completed"
     color: string
     bgColor: string
     hoverColor: string
     tasks: Task[]
     count: number
     onComplete: (id: string) => void
-    onMoveTask: (id: string, status: "未着手" | "進行中" | "完了") => void
-    onAddNewTask: (status: "未着手" | "進行中" | "完了") => void
+    onMoveTask: (id: string, status: "not_started" | "in_progress" | "completed") => void
+    onAddNewTask: (status: "not_started" | "in_progress" | "completed") => void
     emoji?: string
 }) {
     // ドロップ処理の設定

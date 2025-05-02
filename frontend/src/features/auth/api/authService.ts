@@ -20,7 +20,7 @@ export interface SignupResponse {
 }
 
 export const login = async (params: LoginRequest): Promise<LoginResponse> => {
-    const res = await fetch(BASE_USR + "/login", {
+    const res = await fetch(`${BASE_USR}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
@@ -35,7 +35,7 @@ export const login = async (params: LoginRequest): Promise<LoginResponse> => {
 }
 
 export const signup = async (params: SignupRequest): Promise<SignupResponse> => {
-    const res = await fetch(BASE_USR + "/signup", {
+    const res = await fetch(`${BASE_USR}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),

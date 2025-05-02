@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { Task } from "../type"
+import { search } from "../api/todoService";
+import { SearchResponse } from "../api/todoService";
 
 export const useTasks = (initialTasks: Task[] = []) => {
     const [tasks, setTasks] = useState<Task[]>(initialTasks)
 
     const completeTask = (taskId: string) => {
-        setTasks(tasks.map((task) => (task.id === taskId ? { ...task, status: "完了" } : task)))
+        setTasks(tasks.map((task) => (task.id === taskId ? { ...task, status: "completed" } : task)))
     }
 
     const moveTask = (taskId: string, newStatus: Task["status"]) => {
@@ -16,13 +18,15 @@ export const useTasks = (initialTasks: Task[] = []) => {
         console.log(`add new task to ${status}`)
     }
 
-    const getTasksByStatus = (status: Task["status"]): Task[] => {
-        return tasks.filter((task) => task.status === status)
+    const getTasksByStatus = async (status: Task["status"]): Promise<Task[]> => {
+        const res = await search({ status });
+        return mapSearchResponsesToTasks(res);
     }
 
-    const getTaskCountByStatus = (status: Task["status"]): number => {
-        return getTasksByStatus(status).length
-    }
+    // const getTaskCountByStatus = async (status: Task["status"]): Promise<number> => {
+    //     const tasks = await getTasksByStatus(status)
+    //     return tasks.length
+    // }
 
     return {
         tasks,
@@ -30,6 +34,24 @@ export const useTasks = (initialTasks: Task[] = []) => {
         moveTask,
         addNewTask,
         getTasksByStatus,
-        getTaskCountByStatus,
+        // getTaskCountByStatus,
     }
 }
+
+export const mapSearchResponseToTask = (res: SearchResponse): Task => {
+    return {
+        id: res.id,
+        userId: res.userId,
+        title: res.title,
+        body: res.body ?? "",
+        status: res.status,
+        dueDate: res.dueDate ? new Date(res.dueDate) : undefined,
+        completedAt: res.completedAt ? new Date(res.completedAt) : undefined,
+        createdAt: new Date(res.createdAt),
+        updatedAt: new Date(res.updatedAt),
+    };
+};
+
+export const mapSearchResponsesToTasks = (resList: SearchResponse[]): Task[] => {
+    return resList.map(mapSearchResponseToTask);
+};

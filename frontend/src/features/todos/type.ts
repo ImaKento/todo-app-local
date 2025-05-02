@@ -1,10 +1,14 @@
 // タスクの型定義
 export interface Task {
-    id: string
-    title: string
-    date: string
-    status: "未着手" | "進行中" | "完了"
-    icon: string
+    id: string;
+    userId: string;
+    title: string;
+    body?: string;
+    status: "not_started" | "in_progress" | "completed";
+    dueDate?: Date;
+    completedAt?: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 // ドラッグアイテムの型定義
