@@ -13,14 +13,14 @@ export interface SearchRequest {
 
 export interface TodoResponse {
     id: string;
-    userId: string;
+    user_id: string;
     title: string;
     body?: string;
     status: "not_started" | "in_progress" | "completed";
-    dueDate?: Date;
-    completedAt?: Date;
-    createdAt: Date;
-    updatedAt: Date;
+    due_date?: Date;
+    completed_at?: Date;
+    created_at: Date;
+    updated_at: Date;
 }
 
 export const search = async (params: SearchRequest): Promise<TodoResponse[]> => {
@@ -52,6 +52,7 @@ export const search = async (params: SearchRequest): Promise<TodoResponse[]> => 
     if (!Array.isArray(data) || data.length == 0) {
         return [];
     }
+    
     return data;
 }
 

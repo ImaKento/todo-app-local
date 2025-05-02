@@ -15,7 +15,7 @@ export function DraggableTaskCard({ task, onComplete }: { task: Task; onComplete
         isDragging: !!monitor.isDragging(),
         }),
     })
-    
+
     return (
         <div
         ref={drag as unknown as React.Ref<HTMLDivElement>}

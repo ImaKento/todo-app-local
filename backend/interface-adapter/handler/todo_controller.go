@@ -97,6 +97,7 @@ func (tc *TodoController) Search(ctx echo.Context) error {
 	for _, todo := range todos {
 		res = append(res, response.ToResponseTodoDTO(&todo))
 	}
+
 	return ctx.JSON(http.StatusOK, res)
 }
 

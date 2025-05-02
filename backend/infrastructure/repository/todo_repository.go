@@ -95,6 +95,7 @@ func (repo *TodoRepository) Search(params value_object.SearchTodoParams) ([]enti
 	for _, m := range todos {
 		result = append(result, todoModelToEntity(m))
 	}
+
 	return result, nil
 }
 
@@ -206,7 +207,7 @@ func todoModelToEntity(todo model.Todo) entity.Todo {
 	status, _ := value_object.NewStatus(todo.Status)
 	var dueDate *value_object.DueDate
 	if todo.DueDate != nil {
-		dueDate, _ = value_object.NewDueDate(*todo.DueDate)
+		dueDate, _ = value_object.DueDateFromDB(*todo.DueDate)
 	}
 	var completedAt *value_object.CompletedAt
 	if todo.CompletedAt != nil {

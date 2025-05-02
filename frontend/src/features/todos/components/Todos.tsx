@@ -5,7 +5,6 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { TaskColumn } from "./TaskColumn"
 import { useTasks } from "../hooks/useTasks"
-import { Task } from "@/features/todos/type"
 
 export default function Todos() {
     const {

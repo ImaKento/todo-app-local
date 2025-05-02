@@ -22,8 +22,18 @@ export const useTasks = () => {
         return tasks.filter((task) => task.status === status);
     };
 
-    const completeTask = (taskId: string) => {
-        setTasks(tasks.map((task) => (task.id === taskId ? { ...task, status: "completed" } : task)))
+    const completeTask = async (taskId: string) => {
+        setTasks ((prev) =>
+            prev.map((task) =>
+                task.id === taskId ? { ...task, status: "completed" } : task
+            )
+        );
+
+        try {
+            await updateTaskStatus(taskId, "completed");
+        } catch (err) {
+            console.log("failed to update: ", err);
+        }
     }
 
     const moveTask = async (taskId: string, newStatus: Task["status"]) => {
@@ -68,14 +78,14 @@ export const useTasks = () => {
 export const mapSearchResponseToTask = (res: TodoResponse): Task => {
     return {
         id: res.id,
-        userId: res.userId,
+        userId: res.user_id,
         title: res.title,
         body: res.body ?? "",
         status: res.status,
-        dueDate: res.dueDate ? new Date(res.dueDate) : undefined,
-        completedAt: res.completedAt ? new Date(res.completedAt) : undefined,
-        createdAt: new Date(res.createdAt),
-        updatedAt: new Date(res.updatedAt),
+        dueDate: res.due_date ? new Date(res.due_date) : undefined,
+        completedAt: res.completed_at ? new Date(res.completed_at) : undefined,
+        createdAt: new Date(res.created_at),
+        updatedAt: new Date(res.updated_at),
     };
 };
 

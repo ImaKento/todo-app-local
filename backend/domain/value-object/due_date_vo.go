@@ -21,6 +21,11 @@ func NewDueDate(dueDate time.Time) (*DueDate, error) {
 	return &DueDate{value: dueDate}, nil
 }
 
+// 過去でもOKなファクトリ関数（表示用・DB用）
+func DueDateFromDB(t time.Time) (*DueDate, error) {
+	return &DueDate{value: t}, nil
+}
+
 // Valueはtime.Time型の値を返す
 func (d *DueDate) Value() time.Time {
 	return d.value
