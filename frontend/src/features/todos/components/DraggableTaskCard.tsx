@@ -27,10 +27,13 @@ export function DraggableTaskCard({ task, onComplete }: { task: Task; onComplete
             <Card className="bg-white">
                 <CardContent className="p-4">
                     <div className="flex items-start space-x-3">
-                        <div className="text-xl">{task.icon}</div>
+                        <div className="text-xl">{/* アイコンをランダムに表示させる */}</div>
                         <div className="flex-1">
-                            <h3 className="font-medium mb-1">{task.title}</h3>
-                            <p className="text-sm text-gray-500 mb-3">{task.date}</p>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
+                            <p className="text-sm text-gray-600 mb-2 line-clamp-2">{task.body}</p>
+                            <p className="text-xs text-gray-400 mb-3">
+                                {task.dueDate ? task.dueDate.toLocaleDateString() : "期限未設定"}
+                            </p>
                             <Button variant="outline" size="sm" onClick={() => onComplete(task.id)} className="text-sm">
                                 完了！
                             </Button>

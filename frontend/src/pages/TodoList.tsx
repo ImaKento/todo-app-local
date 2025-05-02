@@ -12,8 +12,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-
 import Todos from "@/features/todos/components/Todos"
+
 export default function TodoList() {
   return (
     <SidebarProvider>

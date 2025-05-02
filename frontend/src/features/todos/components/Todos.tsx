@@ -9,40 +9,22 @@ import { Task } from "@/features/todos/type"
 
 export default function Todos() {
     const {
-        completeTask,
-        moveTask,
-        addNewTask,
+        fetchAllTasksFromRemote,
         getTasksByStatus,
-    } = useTasks([])
-
-    const [tasksByStatus, setTasksByStatus] = useState<{
-        not_started: Task[];
-        in_progress: Task[];
-        completed: Task[];
-    }>({
-        not_started: [],
-        in_progress: [],
-        completed: [],
-    });
+        moveTask,
+        completeTask,
+        addNewTask,
+    } = useTasks()
 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchAllTasks = async () => {
-            setLoading(true);
-            const [notStarted, inProgress, completed] = await Promise.all([
-                getTasksByStatus("not_started"),
-                getTasksByStatus("in_progress"),
-                getTasksByStatus("completed"),
-            ]);
-            setTasksByStatus({
-                not_started: notStarted,
-                in_progress: inProgress,
-                completed: completed,
-            });
-            setLoading(false);
-        };
-        fetchAllTasks();
+    const fetch = async () => {
+        setLoading(true);
+        await fetchAllTasksFromRemote();
+        setLoading(false);
+    };
+    fetch();
     }, []);
 
     if (loading) {
@@ -101,8 +83,8 @@ export default function Todos() {
                         color="bg-red-500"
                         bgColor="bg-red-50"
                         hoverColor="hover:bg-red-100"
-                        tasks={tasksByStatus.not_started}
-                        count={tasksByStatus.not_started.length}
+                        tasks={getTasksByStatus("not_started")}
+                        count={getTasksByStatus("not_started").length}
                         onComplete={completeTask}
                         onMoveTask={moveTask}
                         onAddNewTask={addNewTask}
@@ -115,8 +97,8 @@ export default function Todos() {
                         color="bg-blue-500"
                         bgColor="bg-blue-50"
                         hoverColor="hover:bg-blue-100"
-                        tasks={tasksByStatus.in_progress}
-                        count={tasksByStatus.in_progress.length}
+                        tasks={getTasksByStatus("in_progress")}
+                        count={getTasksByStatus("in_progress").length}
                         onComplete={completeTask}
                         onMoveTask={moveTask}
                         onAddNewTask={addNewTask}
@@ -129,8 +111,8 @@ export default function Todos() {
                         color="bg-green-500"
                         bgColor="bg-green-50"
                         hoverColor="hover:bg-green-100"
-                        tasks={tasksByStatus.completed}
-                        count={tasksByStatus.completed.length}
+                        tasks={getTasksByStatus("completed")}
+                        count={getTasksByStatus("completed").length}
                         onComplete={completeTask}
                         onMoveTask={moveTask}
                         onAddNewTask={addNewTask}

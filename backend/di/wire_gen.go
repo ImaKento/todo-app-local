@@ -34,7 +34,8 @@ func InitializeTodoController() (*handler.TodoController, error) {
 	searchTodoUseCase := todo.NewSearchTodoUseCase(iTodoRepository)
 	createTodoUseCase := todo.NewCreateTodoUseCase(iTodoRepository)
 	updateTodoUseCase := todo.NewUpdateTodoUseCase(iTodoRepository)
+	updateStatusTodoUseCase := todo.NewUpdateStatusTodoUseCase(iTodoRepository)
 	deleteTodoUseCase := todo.NewDeleteTodoUseCase(iTodoRepository)
-	todoController := handler.NewTodoController(getTodoByIdUseCase, searchTodoUseCase, createTodoUseCase, updateTodoUseCase, deleteTodoUseCase)
+	todoController := handler.NewTodoController(getTodoByIdUseCase, searchTodoUseCase, createTodoUseCase, updateTodoUseCase, updateStatusTodoUseCase, deleteTodoUseCase)
 	return todoController, nil
 }

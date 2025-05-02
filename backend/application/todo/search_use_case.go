@@ -2,7 +2,6 @@ package todo
 
 import (
 	"fmt"
-	customerror "go-todo-app/custom-error"
 	"go-todo-app/domain/entity"
 	"go-todo-app/domain/repository"
 	value_object "go-todo-app/domain/value-object"
@@ -23,7 +22,8 @@ func (usecase *SearchTodoUseCase) Execute(input value_object.SearchTodoParams) (
 		return nil, fmt.Errorf("falied to find tody: %w", err)
 	}
 	if findTodos == nil {
-		return nil, customerror.NewNotFoundError("todos not found")
+		// todoがない場合も許容
+		return nil, nil
 	}
 
 	return findTodos, nil

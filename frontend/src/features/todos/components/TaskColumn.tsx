@@ -45,6 +45,7 @@ export function TaskColumn({
 
     return (
         <div className="space-y-4">
+            {/* ラベル部分 */}
             <div className="flex items-center space-x-2 mb-2">
                 <div className={`w-3 h-3 rounded-full ${color}`}></div>
                 <h2 className="font-medium">
@@ -52,15 +53,18 @@ export function TaskColumn({
                 </h2>
                 <span className="text-gray-500 ml-2">{count}</span>
             </div>
+            {/* ドロップエリア */}
             <div
                 ref={(node) => {
                     if (node) drop(node)
                 }}
                 className={cn(bgColor, "rounded-lg p-4 min-h-[500px] transition-colors", isOver && "ring-2 ring-blue-400")}
             >
+                {/* タスクの一覧 */}
                 {tasks.map((task) => (
                     <DraggableTaskCard key={task.id} task={task} onComplete={onComplete} />
                 ))}
+                {/* 新規作成ボタン */}
                 <NewTaskButton onClick={() => onAddNewTask(status)} className={cn(bgColor, hoverColor)} />
             </div>
         </div>

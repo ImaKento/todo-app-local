@@ -15,6 +15,7 @@ type TodoController struct {
 	su *todo.SearchTodoUseCase
 	cu *todo.CreateTodoUseCase
 	uu *todo.UpdateTodoUseCase
+	us *todo.UpdateStatusTodoUseCase
 	du *todo.DeleteTodoUseCase
 }
 
@@ -23,9 +24,10 @@ func NewTodoController(
 	su *todo.SearchTodoUseCase,
 	cu *todo.CreateTodoUseCase,
 	uu *todo.UpdateTodoUseCase,
+	us *todo.UpdateStatusTodoUseCase,
 	du *todo.DeleteTodoUseCase,
 ) *TodoController {
-	return &TodoController{gu, su, cu, uu, du}
+	return &TodoController{gu, su, cu, uu, us, du}
 }
 
 // GetByIdはIDからTodoを取得する
@@ -153,6 +155,47 @@ func (tc *TodoController) Update(ctx echo.Context) error {
 
 	// usecaseの実行
 	updatedTodo, err := tc.uu.Execute(todoId, userId, *input)
+	if err != nil {
+		if statusErr, ok := err.(interface{ StatusCode() int }); ok {
+			return ctx.JSON(statusErr.StatusCode(), map[string]string{"error": err.Error()})
+		}
+		return ctx.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	// Entity → DTOに変換する
+	res := response.ToResponseTodoDTO(updatedTodo)
+	return ctx.JSON(http.StatusOK, res)
+}
+
+func (tc *TodoController) UpdateStatus(ctx echo.Context) error {
+	//　パラメータからIDを取得
+	idParam := ctx.Param("id")
+	// value-objectでバリデーション後、usecase用に変換
+	todoId, err := value_object.FromStringTodoId(idParam)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// value-objectでバリデーション後、usecase用に変換
+	userId, err := value_object.FromStringUserId(ctx.Get("user_id").(string))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// requestをDTOでバインドする
+	var statusDTO request.UpdateStatusDTO
+	if err := ctx.Bind(&statusDTO); err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// DTO → usecase用のInput構造体に変換
+	input, err := statusDTO.ToInput()
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// usecaseの実行
+	updatedTodo, err := tc.us.Execute(todoId, userId, *input)
 	if err != nil {
 		if statusErr, ok := err.(interface{ StatusCode() int }); ok {
 			return ctx.JSON(statusErr.StatusCode(), map[string]string{"error": err.Error()})
