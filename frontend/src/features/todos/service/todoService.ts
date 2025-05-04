@@ -1,10 +1,10 @@
 import { todosResponseSchema, TodoResponse, CreateTodoParams, UpdateTodoParams, todoResponseSchema } from "../schemas/TodoSchema"
 
-const BASE_USR = "http://localhost:8080/api/todos"
+const API_URL = import.meta.env.VITE_API_URL
 
 export const getAllTodo = async (): Promise<TodoResponse[]> => {
     const token = localStorage.getItem("access-token")
-    const res = await fetch(`${BASE_USR}/?completed=false`, {
+    const res = await fetch(`${API_URL}/api/todos/?completed=false`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const getAllTodo = async (): Promise<TodoResponse[]> => {
 
 export const createTodo = async (params: CreateTodoParams): Promise<TodoResponse> => {
     const token = localStorage.getItem("access-token")
-    const res = await fetch(`${BASE_USR}/`, {
+    const res = await fetch(`${API_URL}/api/todos/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const createTodo = async (params: CreateTodoParams): Promise<TodoResponse
 
 export const updateTodo = async (todo_id: string, params: UpdateTodoParams): Promise<TodoResponse> => {
     const token = localStorage.getItem("access-token")
-    const res = await fetch(`${BASE_USR}/${todo_id}`, {
+    const res = await fetch(`${API_URL}/api/todos/${todo_id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

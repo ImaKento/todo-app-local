@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { loginParamsSchema, signupParamsSchema, authResponseSchema } from "../schemas/authSchema"
+import { loginParamsSchema, signupParamsSchema, authResponseSchema } from "@/features/auth/schemas/authSchema"
 
-const BASE_USR = "http://localhost:8080/api/users"
+const API_URL = import.meta.env.VITE_API_URL
 
 export const login = async (params: z.infer<typeof loginParamsSchema>): Promise<z.infer<typeof authResponseSchema>> => {
-    const res = await fetch(`${BASE_USR}/login`, {
+    const res = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
@@ -23,7 +23,7 @@ export const login = async (params: z.infer<typeof loginParamsSchema>): Promise<
 }
 
 export const signup = async (params: z.infer<typeof signupParamsSchema>): Promise<z.infer<typeof authResponseSchema>> => {
-    const res = await fetch(`${BASE_USR}/signup`, {
+    const res = await fetch(`${API_URL}/api/users/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
