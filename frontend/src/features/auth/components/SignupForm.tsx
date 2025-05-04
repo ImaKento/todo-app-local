@@ -41,6 +41,7 @@ export const SignupForm = ({
                                     required
                                     {...register("name")}
                                 />
+                                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>

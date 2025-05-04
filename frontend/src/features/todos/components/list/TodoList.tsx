@@ -60,6 +60,7 @@ export default function TodoList({ todos, loading }: Props) {
                         </Button>
                     </div>
                 </div>
+                <hr className="border-t border-gray-200 mb-6" />
 
                 {/* カンバンボード */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

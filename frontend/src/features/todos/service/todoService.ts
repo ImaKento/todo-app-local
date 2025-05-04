@@ -1,4 +1,4 @@
-import { todosResponseSchema, TodoResponse, CreateTodoParams, UpdateParams, todoResponseSchema } from "../schemas/TodoSchema"
+import { todosResponseSchema, TodoResponse, CreateTodoParams, UpdateTodoParams, todoResponseSchema } from "../schemas/TodoSchema"
 
 const BASE_USR = "http://localhost:8080/api/todos"
 
@@ -21,7 +21,7 @@ export const getAllTodo = async (): Promise<TodoResponse[]> => {
     if (!parsed.success) {
         throw new Error("APIのレスポンスが不正です")
     }
-    return parsed.data
+    return parsed.data ?? []
 }
 
 export const createTodo = async (params: CreateTodoParams): Promise<TodoResponse> => {
@@ -47,7 +47,7 @@ export const createTodo = async (params: CreateTodoParams): Promise<TodoResponse
     return parsed.data
 }
 
-export const updateTodo = async (todo_id: string, params: UpdateParams): Promise<TodoResponse> => {
+export const updateTodo = async (todo_id: string, params: UpdateTodoParams): Promise<TodoResponse> => {
     const token = localStorage.getItem("access-token")
     const res = await fetch(`${BASE_USR}/${todo_id}`, {
         method: "PATCH",

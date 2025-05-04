@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginParamsSchema, signupParamsSchema } from "../schemas/authSchema"
-import { login, signup } from "../service/authService"
+import { loginParamsSchema, signupParamsSchema } from "@/features/auth/schemas/authSchema"
+import { login, signup } from "@/features/auth/service/authService"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { z } from "zod";

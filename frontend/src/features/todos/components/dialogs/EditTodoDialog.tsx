@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEditTodo } from "@/features/todos/hooks/useTodos";
-import { Todo } from "@/features/todos/schemas/TodoSchema"
+import { Todo, UpdateTodoParams } from "@/features/todos/schemas/TodoSchema"
 
 export function EditTodoDialog({
     todo,
@@ -33,7 +33,7 @@ export function EditTodoDialog({
     onClose: () => void
 }) {
     const [selectedStatus, setSelectedStatus] = useState<string>(todo.status)
-    const { register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error } = useEditTodo()
+    const { register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error } = useEditTodo(todo)
 
     useEffect(() => {
         if (open) {
@@ -47,12 +47,12 @@ export function EditTodoDialog({
         }
     }, [open, todo, reset])
     
-    const handleUpdate = async (input: any) => {
+    const handleUpdate = async (input: UpdateTodoParams) => {
         await onSubmit({
             ...todo,
             title: input.title,
             body: input.body,
-            dueDate: new Date(input.due_date),
+            due_date: input.due_date || undefined,
             status: input.status,
         })
         onClose()

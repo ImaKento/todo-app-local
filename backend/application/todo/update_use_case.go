@@ -49,9 +49,7 @@ func (usecase *UpdateTodoUseCase) Execute(todoId value_object.TodoId, userId val
 	if input.Status != nil {
 		todo.SetStatus(*input.Status)
 	}
-	if input.DueDate != nil {
-		todo.SetDueDate(input.DueDate)
-	}
+	todo.SetDueDate(input.DueDate)
 	if input.CompletedAt != nil {
 		todo.SetCompletedAt(input.CompletedAt)
 	}

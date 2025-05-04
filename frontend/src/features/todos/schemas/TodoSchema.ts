@@ -47,7 +47,7 @@ export const todoResponseSchema = z.object({
     created_at: z.string().datetime(),
     updated_at: z.string().datetime(),
 })
-export const todosResponseSchema = z.array(todoResponseSchema)
+export const todosResponseSchema = z.array(todoResponseSchema).nullable()
 export type TodoResponse = z.infer<typeof todoResponseSchema>
 
 // タスクの型定義

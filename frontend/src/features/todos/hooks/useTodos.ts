@@ -46,7 +46,7 @@ export const useCreateTodo = (onSuccess?: () => void) => {
     }
 }
 
-export const useEditTodo = () => {
+export const useEditTodo = (originalTodo: Todo) => {
     const { updateTodo, fetchAllTodos } = useTodoContext()
     const [error, setError] = useState<string | null>(null)
 
@@ -60,9 +60,17 @@ export const useEditTodo = () => {
         resolver: zodResolver(updateTodoSchema),
     })
 
-    const onSubmit = async (input: Todo) => {
+    const onSubmit = async (input: UpdateTodoParams) => {
         try {
-            await updateTodo(input)
+            const updatedTodo: Todo = {
+                ...originalTodo,
+                title: input.title ?? originalTodo.title,
+                body: input.body ?? originalTodo.body,
+                status: input.status,
+                dueDate: input.due_date ? new Date(input.due_date) : undefined,
+                completedAt: input.completed_at ? new Date(input.completed_at) : undefined,
+            }
+            await updateTodo(updatedTodo)
             await fetchAllTodos()
         } catch (err) {
             setError("Todoの更新に失敗しました")

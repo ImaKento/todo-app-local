@@ -3,8 +3,8 @@ import { useDrop } from "react-dnd"
 import { cn } from "@/lib/utils"
 import { Todo, DragItem } from "@/features/todos/schemas/TodoSchema"
 import { DraggableTodoCard } from "./DraggableTodoCard"
-import { NewTodoButton } from "../../../../shared/button/NewTodoButton"
-import { CreateTodoDialog } from "../dialogs/CreateTodoDialog"
+import { NewTodoButton } from "@/shared/button/NewTodoButton"
+import { CreateTodoDialog } from "@/features/todos/components/dialogs/CreateTodoDialog"
 import { EditTodoDialog } from "@/features/todos/components/dialogs/EditTodoDialog"
 
 // タスク列コンポーネント
