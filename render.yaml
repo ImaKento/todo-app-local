@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: go-backend
+    env: go
+    rootDir: backend
+    buildCommand: go build -o app ./cmd/main.go
+    startCommand: ./app
+    envVars:
+      - key: SUPABASE_URL
+        value: https://your-project.supabase.co
+      - key: SUPABASE_API_KEY
+        value: your-api-key
