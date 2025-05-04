@@ -1,8 +1,8 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
-import { LoginForm } from "@/features/auth/components/LoginForm";
+import { SignupForm } from "@/features/auth/components/SignupForm";
 
-const Login = () => {
+const SignupPage = () => {
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
             <div className="flex w-full max-w-sm flex-col gap-6">
@@ -12,10 +12,10 @@ const Login = () => {
                     </div>
                     Kalonade Inc.
                 </a>
-                <LoginForm />
+                <SignupForm />
             </div>
         </div>
     )
 }
 
-export default Login;
+export default SignupPage;

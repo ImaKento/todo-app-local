@@ -10,39 +10,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, SignupInput } from "../schemas/signupSchema";
-import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useSignup } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export const SignupForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-    const { signupUser } = useAuth();
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<SignupInput>({
-        resolver: zodResolver(signupSchema),
-    })
-
-    const onSubmit = async (data: SignupInput) => {
-        setError("");
-        try {
-            await signupUser(data.name, data.email, data.password);
-            navigate("/");
-        } catch (err: any) {
-            setError(err.message || "Login failed. Please check your email and password.");
-        }
-    }
-
+    const { register, handleSubmit, errors, isSubmitting, onSubmit, error, emailError } = useSignup()
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -77,6 +52,8 @@ export const SignupForm = ({
                                     {...register("email")}
                                 />
                                 {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                                {/* 2. サーバーエラー（emailに限定） */}
+                                {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">

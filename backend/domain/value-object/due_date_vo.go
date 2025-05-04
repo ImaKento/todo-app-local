@@ -14,10 +14,6 @@ type DueDate struct {
 
 // NewDueDateは与えられた時刻が未来であるかを検証し、DueDateを生成する
 func NewDueDate(dueDate time.Time) (*DueDate, error) {
-	now := time.Now()
-	if dueDate.Before(now) {
-		return nil, ErrInvalidDueDate
-	}
 	return &DueDate{value: dueDate}, nil
 }
 

@@ -9,40 +9,14 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginInput } from "../schemas/loginSchema";
-import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useLogin } from "../hooks/useAuth"
 
 export const LoginForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-    const { loginUser } = useAuth();
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<LoginInput>({
-        resolver: zodResolver(loginSchema),
-    })
-
-    const onSubmit = async (data: LoginInput) => {
-        setError("");
-        try {
-            await loginUser(data.email, data.password);
-            navigate("/");
-        } catch (err: any) {
-            setError(err.message || "Login failed. Please check your email and password.");
-        }
-    }
-
+    const { register, handleSubmit, errors, isSubmitting, onSubmit, error } = useLogin()
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -75,7 +49,7 @@ export const LoginForm = ({
                                     href="#"
                                     className="ml-auto text-sm underline-offset-4 hover:underline"
                                     >
-                                    Forgot your password?
+                                        Forgot your password?
                                     </a>
                                 </div>
                                 <Input id="password" type="password" required {...register("password")}/>

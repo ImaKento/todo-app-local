@@ -1,5 +1,6 @@
-import { AppSidebar } from "@/features/todos/components/AppSideBar"
-import { NavActions } from "@/features/todos/components/NavActions"
+import { useEffect, useState } from "react"
+import { AppSidebar } from "@/shared/layout/AppSideBar"
+import { NavActions } from "@/shared/nav/NavActions"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,9 +13,23 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import Todos from "@/features/todos/components/Todos"
+import TodoList from "@/features/todos/components/list/TodoList"
+import { useTodoContext } from "@/contexts/TodoContext"
 
-export default function TodoList() {
+export default function TodoPage() {
+  const { todos, fetchAllTodos } = useTodoContext()
+  const [loading, setLoading] = useState(true);
+  
+
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true)
+      await fetchAllTodos()
+      setLoading(false)
+    }
+    fetch()
+  }, [])
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -37,7 +52,7 @@ export default function TodoList() {
             <NavActions />
           </div>
         </header>
-        <Todos/>
+        <TodoList todos={todos} loading={loading}/>
       </SidebarInset>
     </SidebarProvider>
   )

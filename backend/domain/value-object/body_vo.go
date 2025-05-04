@@ -17,7 +17,7 @@ type Body struct {
 // NewBodyはバリデーションを行って新しいBodyを生成する
 func NewBody(body string) (*Body, error) {
 	length := utf8.RuneCountInString(body)
-	if length == 0 || length > maxBodyLength {
+	if length > maxBodyLength {
 		return nil, ErrInvalidBody
 	}
 	return &Body{value: body}, nil

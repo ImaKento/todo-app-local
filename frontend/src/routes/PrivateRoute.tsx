@@ -11,7 +11,7 @@ interface JWTPayload {
 }
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access-token");
 
     if (!token) {
         return <Navigate to="/login" replace />;
@@ -21,11 +21,11 @@ export const PrivateRoute = ({ children }: PrivateRouteProps) => {
         const decoded = jwtDecode<JWTPayload>(token);
         const now = Math.floor(Date.now() / 1000);
         if (decoded.exp < now) {
-            localStorage.removeItem("token");
+            localStorage.removeItem("access-token");
             return <Navigate to="/login" replace />;
         }
     } catch (erro) {
-        localStorage.removeItem("token");
+        localStorage.removeItem("access-token");
         return <Navigate to="/login" replace />;
     }
 

@@ -1,30 +1,18 @@
-import { useState, useEffect } from "react";
 import { Calendar, Plus, RefreshCw, Search, Settings, SortDesc } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
-import { TaskColumn } from "./TaskColumn"
-import { useTasks } from "../hooks/useTasks"
+import { TodoColumn } from "@/features/todos/components/list/TodoColumn"
+import { useUpdateTodo } from "@/features/todos/hooks/useTodos"
+import { Todo } from "@/features/todos/schemas/TodoSchema";
 
-export default function Todos() {
-    const {
-        fetchAllTasksFromRemote,
-        getTasksByStatus,
-        moveTask,
-        completeTask,
-        addNewTask,
-    } = useTasks()
+type Props = {
+    todos: Todo[]
+    loading: boolean
+}
 
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-    const fetch = async () => {
-        setLoading(true);
-        await fetchAllTasksFromRemote();
-        setLoading(false);
-    };
-    fetch();
-    }, []);
+export default function TodoList({ todos, loading }: Props) {
+    const { moveTodo, moveCompleteTodo, completeTodo } = useUpdateTodo()
 
     if (loading) {
         return (
@@ -76,45 +64,42 @@ export default function Todos() {
                 {/* カンバンボード */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* 未着手列 */}
-                    <TaskColumn
+                    <TodoColumn
                         title="未着手"
                         status="not_started"
                         color="bg-red-500"
                         bgColor="bg-red-50"
                         hoverColor="hover:bg-red-100"
-                        tasks={getTasksByStatus("not_started")}
-                        count={getTasksByStatus("not_started").length}
-                        onComplete={completeTask}
-                        onMoveTask={moveTask}
-                        onAddNewTask={addNewTask}
+                        todos={todos.filter(t => t.status === "not_started")}
+                        count={todos.filter(t => t.status === "not_started").length}
+                        onMoveTodo={moveTodo}
+                        onClickButton={moveCompleteTodo}
                     />
 
                     {/* 進行中列 */}
-                    <TaskColumn
+                    <TodoColumn
                         title="進行中"
                         status="in_progress"
                         color="bg-blue-500"
                         bgColor="bg-blue-50"
                         hoverColor="hover:bg-blue-100"
-                        tasks={getTasksByStatus("in_progress")}
-                        count={getTasksByStatus("in_progress").length}
-                        onComplete={completeTask}
-                        onMoveTask={moveTask}
-                        onAddNewTask={addNewTask}
+                        todos={todos.filter(t => t.status === "in_progress")}
+                        count={todos.filter(t => t.status === "in_progress").length}
+                        onMoveTodo={moveTodo}
+                        onClickButton={moveCompleteTodo}
                     />
 
                     {/* 完了列 */}
-                    <TaskColumn
+                    <TodoColumn
                         title="完了"
                         status="completed"
                         color="bg-green-500"
                         bgColor="bg-green-50"
                         hoverColor="hover:bg-green-100"
-                        tasks={getTasksByStatus("completed")}
-                        count={getTasksByStatus("completed").length}
-                        onComplete={completeTask}
-                        onMoveTask={moveTask}
-                        onAddNewTask={addNewTask}
+                        todos={todos.filter(t => t.status === "completed")}
+                        count={todos.filter(t => t.status === "completed").length}
+                        onMoveTodo={moveTodo}
+                        onClickButton={completeTodo}
                         emoji="🎉"
                     />
                 </div>

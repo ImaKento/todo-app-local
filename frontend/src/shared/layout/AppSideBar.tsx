@@ -13,11 +13,11 @@ import {
   Trash2,
 } from "lucide-react"
 
-import { NavFavorites } from "@/features/todos/components/NavFavorites"
-import { NavMain } from "@/features/todos/components/NavMain"
-import { NavSecondary } from "@/features/todos/components/NavSecondary"
-import { NavWorkspaces } from "@/features/todos/components/NavWorkspaces"
-import { TeamSwitcher } from "@/features/todos/components/TeamSwitcher"
+// import { NavFavorites } from "@/shared/nav/NavFavorites"
+import { NavMain } from "@/shared/nav/NavMain"
+import { NavSecondary } from "@/shared/nav/NavSecondary"
+// import { NavWorkspaces } from "@/shared/nav/NavWorkspaces"
+import { TeamSwitcher } from "@/shared/nav/TeamSwitcher"
 import {
   Sidebar,
   SidebarContent,
@@ -264,8 +264,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavFavorites favorites={data.favorites} />
-        <NavWorkspaces workspaces={data.workspaces} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarRail />

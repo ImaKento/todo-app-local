@@ -14,10 +14,6 @@ type CompletedAt struct {
 
 // NewCompletedAtは完了日時を設定するファクトリ関数
 func NewCompletedAt(completedAt time.Time) (*CompletedAt, error) {
-	now := time.Now()
-	if completedAt.After(now) {
-		return nil, ErrInvalidCompletedAt
-	}
 	return &CompletedAt{value: completedAt}, nil
 }
 
