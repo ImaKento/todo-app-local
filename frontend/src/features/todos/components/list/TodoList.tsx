@@ -52,12 +52,6 @@ export default function TodoList({ todos, loading }: Props) {
                         <Button variant="ghost" size="icon">
                             <Settings className="h-4 w-4" />
                         </Button>
-                        <Button className="bg-black text-white hover:bg-gray-600">
-                            New
-                            <svg className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </Button>
                     </div>
                 </div>
                 <hr className="border-t border-gray-200 mb-6" />
