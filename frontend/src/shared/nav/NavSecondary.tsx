@@ -19,6 +19,7 @@ export function NavSecondary({
     url: string
     icon: LucideIcon
     badge?: React.ReactNode
+    onClick?: () => void
   }[]
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
@@ -28,10 +29,17 @@ export function NavSecondary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
+                {item.onClick ? (
+                  <button onClick={item.onClick} className="flex items-center gap-2 w-full text-left">
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </button>
+                ) : (
+                  <a href={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </a> 
+                )}
               </SidebarMenuButton>
               {item.badge && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
             </SidebarMenuItem>

@@ -11,12 +11,11 @@ import {
   Settings2,
   Sparkles,
   Trash2,
+  LogOut,
 } from "lucide-react"
 
-// import { NavFavorites } from "@/shared/nav/NavFavorites"
 import { NavMain } from "@/shared/nav/NavMain"
 import { NavSecondary } from "@/shared/nav/NavSecondary"
-// import { NavWorkspaces } from "@/shared/nav/NavWorkspaces"
 import { TeamSwitcher } from "@/shared/nav/TeamSwitcher"
 import {
   Sidebar,
@@ -94,6 +93,11 @@ const data = {
       url: "#",
       icon: MessageCircleQuestion,
     },
+    {
+      title: "Logout",
+      url: "login",
+      icon: LogOut,
+    }
   ],
   favorites: [
     {
@@ -256,6 +260,15 @@ const data = {
   ],
 }
 
+const handleLogout = () => {
+  localStorage.removeItem("access-token")
+  window.location.href = "/login"
+}
+
+const navSecondaryWithLogout = data.navSecondary.map((item) =>
+  item.title === "Logout" ? { ...item, onClick: handleLogout } : item
+)
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r-0" {...props}>
@@ -264,7 +277,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary items={navSecondaryWithLogout} className="mt-auto" />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
