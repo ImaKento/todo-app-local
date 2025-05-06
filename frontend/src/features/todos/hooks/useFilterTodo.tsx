@@ -4,8 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { CreateTodoParams, createTodoSchema, Todo, UpdateTodoParams, updateTodoSchema } from "@/features/todos/schemas/TodoSchema"
 import { useTodoContext } from "@/contexts/TodoContext"
 
+// export const useSearchTodo = (conditions: SearchTodoParams) => {
+//     const { fetchSearchTodos } = useTodoContext()
+// }
+
 export const useCreateTodo = (onSuccess?: () => void) => {
-    const { createTodo, fetchAllTodos } = useTodoContext()
+    const { createTodo } = useTodoContext()
     const [error, setError] = useState<string | null>(null)
 
     const {
@@ -28,7 +32,6 @@ export const useCreateTodo = (onSuccess?: () => void) => {
             if (onSuccess) {
                 onSuccess()
             }
-            await fetchAllTodos()
         } catch (err) {
             setError("Todoの作成に失敗しました")
         }
@@ -47,7 +50,7 @@ export const useCreateTodo = (onSuccess?: () => void) => {
 }
 
 export const useEditTodo = (originalTodo: Todo) => {
-    const { updateTodo, fetchAllTodos } = useTodoContext()
+    const { updateTodo } = useTodoContext()
     const [error, setError] = useState<string | null>(null)
 
     const {
@@ -71,7 +74,6 @@ export const useEditTodo = (originalTodo: Todo) => {
                 completedAt: input.completed_at ? new Date(input.completed_at) : undefined,
             }
             await updateTodo(updatedTodo)
-            await fetchAllTodos()
         } catch (err) {
             setError("Todoの更新に失敗しました")
         }
@@ -90,7 +92,7 @@ export const useEditTodo = (originalTodo: Todo) => {
 }
 
 export const useUpdateTodo = () => {
-    const { todos, duplicateTodo, updateTodo, fetchAllTodos } = useTodoContext()
+    const { todos, duplicateTodo, updateTodo } = useTodoContext()
 
     const useDuplicateTodo = async (todoId: string) => {
         const todo = todos.find(t => t.id === todoId)
@@ -98,7 +100,6 @@ export const useUpdateTodo = () => {
 
         try {
             await duplicateTodo(todoId)
-            await fetchAllTodos()
         } catch (err) {
             console.error("Todoの複製に失敗しました", err)
         }
@@ -110,7 +111,6 @@ export const useUpdateTodo = () => {
 
         try {
             await updateTodo({...todo, status: "deleted", completedAt: new Date()})
-            await fetchAllTodos()
         } catch (err) {
             console.error("Todoの完了に失敗しました", err)
         }
@@ -128,7 +128,6 @@ export const useUpdateTodo = () => {
             } else {
                 await updateTodo({...todo, status: newStatus, completedAt: null})
             }
-            await fetchAllTodos()
         } catch (err) {
             console.error("Todoステータス更新に失敗しました", err)
         }
@@ -140,7 +139,6 @@ export const useUpdateTodo = () => {
 
         try {
             await updateTodo({...todo, status: "completed"})
-            await fetchAllTodos()
         } catch (err) {
             console.error("Todoステータス更新に失敗しました", err)
         }

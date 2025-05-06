@@ -29,12 +29,13 @@ func InitializeUserController() (*handler.UserController, error) {
 // InitializeTodoControllerは依存関係を組み立ててTodoControllerを返す
 func InitializeTodoController() (*handler.TodoController, error) {
 	client := supabase.NewSupabaseClient()
-	ITodoRepository := repository.NewTodoRepository(client)
-	getTodoByIdUseCase := todo.NewGetTodoByIdUseCase(ITodoRepository)
-	searchTodoUseCase := todo.NewSearchTodoUseCase(ITodoRepository)
-	createTodoUseCase := todo.NewCreateTodoUseCase(ITodoRepository)
-	updateTodoUseCase := todo.NewUpdateTodoUseCase(ITodoRepository)
-	deleteTodoUseCase := todo.NewDeleteTodoUseCase(ITodoRepository)
-	todoController := handler.NewTodoController(getTodoByIdUseCase, searchTodoUseCase, createTodoUseCase, updateTodoUseCase, deleteTodoUseCase)
+	iTodoRepository := repository.NewTodoRepository(client)
+	getTodoByIdUseCase := todo.NewGetTodoByIdUseCase(iTodoRepository)
+	searchTodoUseCase := todo.NewSearchTodoUseCase(iTodoRepository)
+	createTodoUseCase := todo.NewCreateTodoUseCase(iTodoRepository)
+	updateTodoUseCase := todo.NewUpdateTodoUseCase(iTodoRepository)
+	duplicateTodoUseCase := todo.NewDuplicateTodoUseCase(iTodoRepository)
+	deleteTodoUseCase := todo.NewDeleteTodoUseCase(iTodoRepository)
+	todoController := handler.NewTodoController(getTodoByIdUseCase, searchTodoUseCase, createTodoUseCase, updateTodoUseCase, duplicateTodoUseCase, deleteTodoUseCase)
 	return todoController, nil
 }

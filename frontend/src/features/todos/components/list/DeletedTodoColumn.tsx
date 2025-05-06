@@ -3,21 +3,17 @@ import { useDrop } from "react-dnd"
 import { cn } from "@/lib/utils"
 import { Todo, DragItem } from "@/features/todos/schemas/TodoSchema"
 import { DraggableTodoCard } from "./DraggableTodoCard"
-import { NewTodoButton } from "@/shared/button/NewTodoButton"
-import { CreateTodoDialog } from "@/features/todos/components/dialogs/CreateTodoDialog"
 import { EditTodoDialog } from "@/features/todos/components/dialogs/EditTodoDialog"
 
 // タスク列コンポーネント
-export function TodoColumn({
+export function DeletedTodoColumn({
     title,
     status,
     color,
     bgColor,
-    hoverColor,
     todos,
     count,
     onMoveTodo,
-    onDuplicateButton,
     onCompleteButton,
     onDeleteButton,
     emoji = "",
@@ -26,11 +22,9 @@ export function TodoColumn({
     status: "not_started" | "in_progress" | "completed" | "deleted"
     color: string
     bgColor: string
-    hoverColor: string
     todos: Todo[]
     count: number
     onMoveTodo: (todoId: string, status: "not_started" | "in_progress" | "completed" | "deleted") => void
-    onDuplicateButton: (todoId: string) => void
     onCompleteButton?: (todoId: string) => void
     onDeleteButton?: (todoId: string) => void
     emoji?: string
@@ -77,29 +71,30 @@ export function TodoColumn({
             >
 
                 {/* タスクの一覧 */}
-                {[...todos]
-                    .sort((a, b) => {
-                        if (a.dueDate && b.dueDate) {
-                            return a.dueDate.getTime() - b.dueDate.getTime()
-                        } else if (a.dueDate) {
-                            return -1
-                        } else if (b.dueDate) {
-                            return 1
-                        } else {
-                            return 0
-                        }
-                    })
-                    .map((todo) => (
-                        <DraggableTodoCard 
-                            key={todo.id}
-                            todo={todo}
-                            onDuplicateButton={onDuplicateButton}
-                            onCompleteButton={onCompleteButton}
-                            onDeleteButton={onDeleteButton}
-                            onCardClick={() => handleCardClick(todo)}
-                        />
-                    ))
-                }
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[...todos]
+                        .sort((a, b) => {
+                            if (a.dueDate && b.dueDate) {
+                                return a.dueDate.getTime() - b.dueDate.getTime()
+                            } else if (a.dueDate) {
+                                return -1
+                            } else if (b.dueDate) {
+                                return 1
+                            } else {
+                                return 0
+                            }
+                        })
+                        .map((todo) => (
+                            <DraggableTodoCard 
+                                key={todo.id}
+                                todo={todo}
+                                onCompleteButton={onCompleteButton}
+                                onDeleteButton={onDeleteButton}
+                                onCardClick={() => handleCardClick(todo)}
+                            />
+                        ))
+                    }
+                </div>
                 {/* 編集ダイアログ */}
                 {selectedTodo && (
                     <EditTodoDialog
@@ -108,12 +103,6 @@ export function TodoColumn({
                     onClose={handleCloseDialog}
                     />
                 )}
-
-                {/* 新規作成ボタン */}
-                <CreateTodoDialog 
-                    trigger={<NewTodoButton onClick={() => {}} className={cn(bgColor, hoverColor)} />}
-                    status={status}
-                />
             </div>
         </div>
     )

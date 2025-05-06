@@ -1,5 +1,6 @@
 import { TodoColumn } from "@/features/todos/components/list/TodoColumn"
-import { useUpdateTodo } from "@/features/todos/hooks/useTodos"
+import { DeletedTodoColumn } from "@/features/todos/components/list/DeletedTodoColumn"
+import { useUpdateTodo } from "@/features/todos/hooks/useFilterTodo"
 import { Todo } from "@/features/todos/schemas/TodoSchema";
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
     loading: boolean
 }
 
-export default function TodoList({ todos, loading }: Props) {
+export default function SearchList({ todos, loading }: Props) {
     const { useDuplicateTodo, useMoveTodo, useMoveCompleteTodo, useDeleteTodo } = useUpdateTodo()
 
     if (loading) {
@@ -66,6 +67,18 @@ export default function TodoList({ todos, loading }: Props) {
                     onDuplicateButton={useDuplicateTodo}
                     onDeleteButton={useDeleteTodo}
                     emoji="🎉"
+                />
+            </div>
+            <div className="mt-4 mb-4">
+                {/* 削除済み */}
+                <DeletedTodoColumn
+                    title="削除済み"
+                    status="deleted"
+                    color="bg-gray-500"
+                    bgColor="bg-gray-50"
+                    todos={todos.filter(t => t.status === "deleted")}
+                    count={todos.filter(t => t.status === "deleted").length}
+                    onMoveTodo={useMoveTodo}
                 />
             </div>
         </>

@@ -50,9 +50,7 @@ func (usecase *UpdateTodoUseCase) Execute(todoId value_object.TodoId, userId val
 		todo.SetStatus(*input.Status)
 	}
 	todo.SetDueDate(input.DueDate)
-	if input.CompletedAt != nil {
-		todo.SetCompletedAt(input.CompletedAt)
-	}
+	todo.SetCompletedAt(input.CompletedAt)
 
 	// updateAtを現在時間に更新
 	todo.UpdateTimestamp()

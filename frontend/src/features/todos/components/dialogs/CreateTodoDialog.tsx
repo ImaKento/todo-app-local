@@ -28,7 +28,7 @@ export function CreateTodoDialog({
   status,
 }: {
   trigger: React.ReactNode
-  status: "not_started" | "in_progress" | "completed"
+  status: "not_started" | "in_progress" | "completed" | "deleted"
 }) {
   const [selectedStatus, setSelectedStatus] = useState<string>(status)
   const [open, setOpen] = useState(false)
@@ -36,7 +36,6 @@ export function CreateTodoDialog({
 
   useEffect(() => {
     if (open) {
-      // 開くときにフォームをリセット
       reset({
         title: "",
         body: "",
@@ -65,7 +64,6 @@ export function CreateTodoDialog({
               <Label htmlFor="title" className="text-right">タイトル</Label>
               <Input 
                 id="title"
-                required
                 {...register("title")}
                 className="col-span-3" 
               />

@@ -45,12 +45,6 @@ export const LoginForm = ({
                             <div className="grid gap-2">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
-                                    <a
-                                    href="#"
-                                    className="ml-auto text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
                                 </div>
                                 <Input id="password" type="password" required {...register("password")}/>
                                 {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
@@ -70,10 +64,6 @@ export const LoginForm = ({
                 </form>
                 </CardContent>
             </Card>
-            <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-                By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-                and <a href="#">Privacy Policy</a>.
-            </div>
         </div>
     )
 }

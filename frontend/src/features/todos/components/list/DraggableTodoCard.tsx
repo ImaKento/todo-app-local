@@ -3,7 +3,9 @@ import { useDrag } from "react-dnd"
 import { cn } from "@/lib/utils"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
 import { Todo } from "@/features/todos/schemas/TodoSchema"
+import { DeleteTodoDialog } from "@/features/todos/components/dialogs/DeleteTodoDialog"
 
 const ICONS = [
     // ✏️ 文房具
@@ -46,13 +48,15 @@ const getIconFromId = (id: string) => {
 // ドラッグ可能なタスクカードコンポーネント
 export function DraggableTodoCard({
     todo,
-    buttonText,
-    onClickButton,
+    onDuplicateButton,
+    onCompleteButton,
+    onDeleteButton,
     onCardClick,
 }: {
     todo: Todo
-    buttonText: string
-    onClickButton: (todo_id: string) => void
+    onDuplicateButton?: (todoId: string) => void
+    onCompleteButton?: (todoId: string) => void
+    onDeleteButton?: (todoId: string) => void
     onCardClick: () => void
 }) {
     // ドラッグ処理の設定
@@ -75,7 +79,20 @@ export function DraggableTodoCard({
                 isDragging ? "opacity-50" : "opacity-100",
             )}
         >
-            <Card className="bg-white">
+            <Card className="bg-white relative">
+                {onDuplicateButton &&
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute top-4 right-4"
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            onDuplicateButton(todo.id)
+                        }}
+                        >
+                        <Plus className="h-4 w-4" />
+                    </Button>
+                }
                 <CardContent className="p-4">
                     <div className="flex items-start space-x-3">
                         <div className="text-2xl min-w-[48px] text-center">{icon}</div>
@@ -92,17 +109,27 @@ export function DraggableTodoCard({
                         <p className="text-xs text-gray-400 mb-3">
                             {todo.dueDate ? todo.dueDate.toLocaleDateString() : "期限未設定"}
                         </p>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                onClickButton(todo.id)
-                            }}
-                            className="text-sm"
-                        >
-                            {buttonText}
-                        </Button>
+                        {onCompleteButton &&
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    onCompleteButton(todo.id)
+                                }}
+                                className="text-sm mr-2"
+                            >
+                                完了！
+                            </Button>
+                        }
+                        {onDeleteButton &&
+                            <DeleteTodoDialog
+                                todoId={todo.id}
+                                onDelete={(id) => {
+                                    onDeleteButton(id)
+                                }}
+                            />
+                        }
                         </div>
                     </div>
                 </CardContent>

@@ -34,6 +34,7 @@ func InitializeTodoController() (*handler.TodoController, error) {
 		todo.NewSearchTodoUseCase,
 		todo.NewCreateTodoUseCase,
 		todo.NewUpdateTodoUseCase,
+		todo.NewDuplicateTodoUseCase,
 		todo.NewDeleteTodoUseCase,
 		handler.NewTodoController,
 	)

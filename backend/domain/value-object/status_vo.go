@@ -13,6 +13,7 @@ var (
 		"not_started": true,
 		"in_progress": true,
 		"completed":   true,
+		"deleted":     true,
 	}
 )
 

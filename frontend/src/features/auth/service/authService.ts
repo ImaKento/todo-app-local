@@ -27,7 +27,7 @@ export const signup = async (params: z.infer<typeof signupParamsSchema>): Promis
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
-    });
+    })
     if (!res.ok) {
         const error = await res.json();
         if (res.status === 409) {

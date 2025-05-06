@@ -1,12 +1,15 @@
 import { createContext, useContext, useState } from "react"
-import { Todo, CreateTodoParams, TodoResponse, UpdateTodoParams } from "@/features/todos/schemas/TodoSchema"
-import { getAllTodo, createTodo as createTodoAPI, updateTodo as updateTodoAPI } from "@/features/todos/service/todoService"
+import { Todo, SearchTodoParams, CreateTodoParams, TodoResponse, UpdateTodoParams } from "@/features/todos/schemas/TodoSchema"
+import { getAllTodo, getTodosByCondition, createTodo as createTodoAPI, updateTodo as updateTodoAPI, duplicateTodo as duplicateTodoAPI } from "@/features/todos/service/todoService"
 
 interface TodoContextType {
   todos: Todo[]
   fetchAllTodos: () => Promise<void>
+  fetchTodosByCondition: (params: SearchTodoParams) => Promise<void>
+  // fetchSearchTodos: (conditions: SearchTodoParams) => Promise<void>
   createTodo: (newTodo: CreateTodoParams) => Promise<void>
   updateTodo: (updatedTodo: Todo) => Promise<void>
+  duplicateTodo: (todoId: string) => Promise<void>
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined)
@@ -17,6 +20,16 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchAllTodos = async () => {
     try {
       const response = await getAllTodo()
+      const todos = response.map(convertToTodo)
+      setTodos(todos)
+    } catch (error) {
+      console.error("Todoの取得に失敗しました", error)
+    }
+  }
+
+  const fetchTodosByCondition = async (params: SearchTodoParams) => {
+    try {
+      const response = await getTodosByCondition(params)
       const todos = response.map(convertToTodo)
       setTodos(todos)
     } catch (error) {
@@ -35,7 +48,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateTodo = async (updatedTodo: Todo) => {
-    const todo_id = updatedTodo.id
+    const todoId = updatedTodo.id
     const params: UpdateTodoParams = {
       title: updatedTodo.title,
       body: updatedTodo.body ?? undefined,
@@ -45,18 +58,28 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     try {
-      const response = await updateTodoAPI(todo_id, params)
+      const response = await updateTodoAPI(todoId, params)
       const updatedTodo = convertToTodo(response)
       setTodos((prev) =>
         prev.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo))
-      );
+      )
     } catch (error) {
       console.error("Todoの更新に失敗しました", error)
     }
   }
 
+  const duplicateTodo = async (todoId: string) => {
+    try {
+      const response = await duplicateTodoAPI(todoId)
+      const duplicatedTodo = convertToTodo(response)
+      setTodos((prev) => [...prev, duplicatedTodo])
+    } catch (error) {
+      console.error("Todoの複製に失敗しました", error)
+    }
+  }
+
   return (
-    <TodoContext.Provider value={{ todos, fetchAllTodos, createTodo, updateTodo }}>
+    <TodoContext.Provider value={{ todos, fetchAllTodos, fetchTodosByCondition, createTodo, updateTodo, duplicateTodo }}>
       {children}
     </TodoContext.Provider>
   )

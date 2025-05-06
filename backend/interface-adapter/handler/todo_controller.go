@@ -11,11 +11,12 @@ import (
 )
 
 type TodoController struct {
-	gu *todo.GetTodoByIdUseCase
-	su *todo.SearchTodoUseCase
-	cu *todo.CreateTodoUseCase
-	uu *todo.UpdateTodoUseCase
-	du *todo.DeleteTodoUseCase
+	gu  *todo.GetTodoByIdUseCase
+	su  *todo.SearchTodoUseCase
+	cu  *todo.CreateTodoUseCase
+	uu  *todo.UpdateTodoUseCase
+	dup *todo.DuplicateTodoUseCase
+	du  *todo.DeleteTodoUseCase
 }
 
 func NewTodoController(
@@ -23,9 +24,10 @@ func NewTodoController(
 	su *todo.SearchTodoUseCase,
 	cu *todo.CreateTodoUseCase,
 	uu *todo.UpdateTodoUseCase,
+	dup *todo.DuplicateTodoUseCase,
 	du *todo.DeleteTodoUseCase,
 ) *TodoController {
-	return &TodoController{gu, su, cu, uu, du}
+	return &TodoController{gu, su, cu, uu, dup, du}
 }
 
 // GetByIdはIDからTodoを取得する
@@ -164,6 +166,36 @@ func (tc *TodoController) Update(ctx echo.Context) error {
 	// Entity → DTOに変換する
 	res := response.ToResponseTodoDTO(updatedTodo)
 	return ctx.JSON(http.StatusOK, res)
+}
+
+// DuplicateはTodoを複製する
+func (tc *TodoController) Duplicate(ctx echo.Context) error {
+	// パラメータからIDを取得
+	idParam := ctx.Param("id")
+	// value-objectでバリデーション後、usecase用に変換
+	todoId, err := value_object.FromStringTodoId(idParam)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// value-objectでバリデーション後、usecase用に変換
+	userId, err := value_object.FromStringUserId(ctx.Get("user_id").(string))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// usecaseの実行
+	duplicatedTodo, err := tc.dup.Execute(todoId, userId)
+	if err != nil {
+		if statusErr, ok := err.(interface{ StatusCode() int }); ok {
+			return ctx.JSON(statusErr.StatusCode(), map[string]string{"error": err.Error()})
+		}
+		return ctx.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	// Entity → DTOに変換する
+	res := response.ToResponseTodoDTO(duplicatedTodo)
+	return ctx.JSON(http.StatusCreated, res)
 }
 
 // DeleteはTodoを削除する

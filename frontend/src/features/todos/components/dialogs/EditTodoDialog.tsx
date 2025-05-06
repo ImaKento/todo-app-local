@@ -73,7 +73,6 @@ export function EditTodoDialog({
                     <Label htmlFor="title" className="text-right">タイトル</Label>
                     <Input 
                         id="title"
-                        required
                         {...register("title")}
                         className="col-span-3" 
                     />
@@ -114,15 +113,15 @@ export function EditTodoDialog({
                         }}
                     >
                         <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="ステータスを選択" />
+                            <SelectValue placeholder="ステータスを選択" />
                         </SelectTrigger>
                         <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>ステータス</SelectLabel>
-                            <SelectItem value="not_started">未着手</SelectItem>
-                            <SelectItem value="in_progress">進行中</SelectItem>
-                            <SelectItem value="completed">完了</SelectItem>
-                        </SelectGroup>
+                            <SelectGroup>
+                                <SelectLabel>ステータス</SelectLabel>
+                                <SelectItem value="not_started">未着手</SelectItem>
+                                <SelectItem value="in_progress">進行中</SelectItem>
+                                <SelectItem value="completed">完了</SelectItem>
+                            </SelectGroup>
                         </SelectContent>
                     </Select>
                     {/* エラーメッセージ */}

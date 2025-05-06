@@ -1,8 +1,9 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
-import LoginPage from "@/pages/LoginPage";
-import SignupPage from "@/pages/SinupPage";
+import { Route, Routes, BrowserRouter } from "react-router-dom"
+import LoginPage from "@/pages/LoginPage"
+import SignupPage from "@/pages/SinupPage"
 import TodoPage from "@/pages/TodoPage"
-import { PrivateRoute } from "./PrivateRoute";
+import FilterPage from "@/pages/FilterPage"
+import { PrivateRoute } from "./PrivateRoute"
 
 export const AppRoutes = () => {
     return (
@@ -15,6 +16,14 @@ export const AppRoutes = () => {
                     element={
                         <PrivateRoute>
                             <TodoPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/filter"
+                    element={
+                        <PrivateRoute>
+                            <FilterPage />
                         </PrivateRoute>
                     }
                 />

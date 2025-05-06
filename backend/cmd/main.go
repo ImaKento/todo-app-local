@@ -40,6 +40,7 @@ func main() {
 	todosGroup.GET("/", todoController.Search)
 	todosGroup.POST("/", todoController.Create)
 	todosGroup.PATCH("/:id", todoController.Update)
+	todosGroup.POST("/:id/duplicate", todoController.Duplicate)
 	todosGroup.DELETE("/:id", todoController.Delete)
 
 	// サーバ起動
