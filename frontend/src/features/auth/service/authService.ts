@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { loginParamsSchema, signupParamsSchema, authResponseSchema } from "@/features/auth/schemas/authSchema"
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = "http://localhost:8080"
 
 export const login = async (params: z.infer<typeof loginParamsSchema>): Promise<z.infer<typeof authResponseSchema>> => {
     const res = await fetch(`${API_URL}/api/users/login`, {
